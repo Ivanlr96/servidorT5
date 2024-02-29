@@ -19,13 +19,10 @@ class BoxController extends Controller
 
 
     public function create()
-{
+    {
+        
+    }
 
-}
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreBoxRequest $request)
     {
         {
@@ -48,9 +45,17 @@ class BoxController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Box $box)
+    public function show($id)
     {
-        //
+        try {
+            $box = Box::find($id);
+            if (!$box) {
+                return response()->json(['message' => 'Box not found'], 404);
+            }
+            return response()->json($box);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error retrieving box'], 500);
+        }
     }
 
     /**

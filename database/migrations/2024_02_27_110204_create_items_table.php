@@ -16,8 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('box_id');
             $table->foreign('box_id')->references('id')->on('boxes');
             $table->string('name');
-            $table->text('description');
-            $table->string('picture');
+            $table->string('description');
+            $table->string('picture')->nullable();
             $table->decimal('price', 8, 2);
             $table->timestamps();
         });
