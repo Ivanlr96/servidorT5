@@ -5,22 +5,25 @@ namespace App\Http\Controllers;
 use App\Models\Box;
 use App\Http\Requests\StoreBoxRequest;
 use App\Http\Requests\UpdateBoxRequest;
+use Illuminate\Routing\ViewController;
+use Illuminate\View\View;
 
 class BoxController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index():View
     {
-        $boxes = Box::all();
-        return response()->json($boxes);
+        return view('boxes.index', [
+            'boxes' => Box::all()
+        ]);
     }
 
 
     public function create()
     {
-        
+        return view('index.create');
     }
 
     public function store(StoreBoxRequest $request)
