@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
+
 {
     use HasFactory;
     public function box()
@@ -17,6 +18,8 @@ class Item extends Model
 
         return $this->hasOne(Loan::class);
     }
-
+    
+        protected $fillable = ['name', 'description', 'price', 'image'];
+    
 
 }

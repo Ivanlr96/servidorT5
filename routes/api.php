@@ -6,7 +6,7 @@ use App\Http\Controllers\BoxController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\UserController;
-
+use App\Http\Requests\CreateBoxRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +22,8 @@ use App\Http\Controllers\UserController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
 
 Route::apiResource('boxes', BoxController::class);
 Route::apiResource('items', ItemController::class);

@@ -6,7 +6,9 @@ use App\Models\Box;
 use App\Http\Requests\StoreBoxRequest;
 use App\Http\Requests\UpdateBoxRequest;
 use Illuminate\Routing\ViewController;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Log;
 
 class BoxController extends Controller
 {
@@ -23,7 +25,7 @@ class BoxController extends Controller
 
     public function create()
     {
-        return view('index.create');
+        return view('boxes.create');
     }
 
     public function store(StoreBoxRequest $request)
@@ -38,6 +40,8 @@ class BoxController extends Controller
                 $box->label = $request->input('label');
                 $box->location = $request->input('location');
                 $box->save();
+
+    return redirect()->route('boxes.index');
             }
             catch (\Exception $e) {
                 return response()->json(['message' => 'Error creating box'], 500);
@@ -55,7 +59,7 @@ class BoxController extends Controller
             if (!$box) {
                 return response()->json(['message' => 'Box not found'], 404);
             }
-            return response()->json($box);
+            return view('boxes.show', ['box' => $box]);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error retrieving box'], 500);
         }
@@ -66,12 +70,13 @@ class BoxController extends Controller
      */
     public function edit(Box $box)
     {
-
+        return view('boxes.edit', ['box' => $box]); 
     }
 
     /**
      * Update the specified resource in storage.
      */
+    
     public function update(UpdateBoxRequest $request, $id)
     {
         {
@@ -84,6 +89,7 @@ class BoxController extends Controller
                 $box->label = $request->input('label');
                 $box->location = $request->input('location');
                 $box->save();
+                return redirect()->route('boxes.index');
             }
             catch (\Exception $e) {
                 return response()->json(['message' => 'Error updating box'], 500);
@@ -94,7 +100,7 @@ class BoxController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Box $id)
+    public function destroy($id)
     {
         $box = Box::find($id);
 
@@ -103,7 +109,7 @@ class BoxController extends Controller
         }
         else{
             $box->delete();
-            return response()->json(['message' => 'caja eliminada'], 200);
+            return redirect()->route('boxes.index')->with('success', 'La caja se ha eliminado correctamente.');
         }
     }
     }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BoxController;
+use App\Http\Controllers\ItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,5 +31,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('boxes', BoxController::class)->middleware('auth');
+Route::resource('items', ItemController::class)->middleware('auth');
 
+Route::post('/items', [ItemController::class, 'store'])->name('items.store');
 require __DIR__.'/auth.php';

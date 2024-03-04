@@ -6,12 +6,12 @@
             @csrf
 
             <div class="form-group">
-                <label for="label">Label</label>
+                <label for="label">Etiqueta</label>
                 <input type="text" name="label" id="label" class="form-control" required>
             </div>
 
             <div class="form-group">
-                <label for="location">Location</label>
+                <label for="location">Ubicación</label>
                 <input type="text" name="location" id="location" class="form-control" required>
             </div>
 
