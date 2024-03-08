@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Item extends Model
 
 {
+
+
     use HasFactory;
     public function box()
     {
@@ -18,8 +20,12 @@ class Item extends Model
 
         return $this->hasOne(Loan::class);
     }
-    
-        protected $fillable = ['name', 'description', 'price', 'image'];
-    
+
+        protected $fillable = ['name', 'description', 'price', 'picture', 'box_id'];
+
+        public function activeLoan()
+            {
+                return $this->loan()->whereNull('return_date')->first();
+            }
 
 }

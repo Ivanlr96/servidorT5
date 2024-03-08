@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('box_id');
-            $table->foreign('box_id')->references('id')->on('boxes');
+            $table->foreignId('box_id')->nullable()->constrained()->nullOnDelete();
             $table->string('name');
             $table->string('description');
             $table->string('picture')->nullable();

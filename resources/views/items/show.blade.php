@@ -20,10 +20,16 @@
             </tr>
             <tr>
                 <td>Caja:</td>
-                <td>{{ $item->box->label }}</td>   
+                @if($item->box)
+                    <td>{{ $item->box->label }}</td>
+                @else
+                    <td>Sin caja</td>
+                @endif
+            </tr>
             <tr>
                 <td>Imagen:</td>
-                <td><img src="{{ $item->picture }}" alt="{{ $item->name }}" width="100"></td>
+
+                <td><img src="{{ asset(Storage::url($item->picture)) }}" alt="{{ $item->name }}" width="100" height="100"></td>
         </table>
 </form>
 

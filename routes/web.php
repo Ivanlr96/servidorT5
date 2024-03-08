@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BoxController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\LoanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,16 @@ Route::middleware('auth')->group(function () {
 
 Route::resource('boxes', BoxController::class)->middleware('auth');
 Route::resource('items', ItemController::class)->middleware('auth');
+// ruta a destroy de items con id
+Route::delete('/items/delete/{id}', [ItemController::class, 'destroy'])->name('items.delete');
 
-Route::post('/items', [ItemController::class, 'store'])->name('items.store');
+Route::resource('loans', LoanController::class)->middleware('auth');
+// ruta a create de loans con id
+Route::get('/loans/create/{id}', [LoanController::class, 'create'])->name('loans.create');
+
+
+// Route::post('/items', [ItemController::class, 'store'])->name('items.store');
+// Route::get('/loans', [LoanController::class, 'create'])->name('loans.create');
+// Route::post('/loans', [LoanController::class, 'store'])->name('loans.store');
+
 require __DIR__.'/auth.php';

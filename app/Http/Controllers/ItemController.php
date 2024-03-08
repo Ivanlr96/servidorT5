@@ -6,54 +6,52 @@ use App\Models\Item;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
 use Illuminate\Http\Request;
-use Illumminate\View\View; 
+use Illumminate\View\View;
 use App\Models\Box;
+
 
 class ItemController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         return view('items.index', [
             'items' => Item::all()
         ]);
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
+
     public function create()
     {
-        return view('items.create');
+        return view('items.create', ['boxes' => Box::all()]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    
-    public function store(StoreItemRequest $request)
+
+
+    public function store(Request $request)
     {
         try {
-            $request->validate([
+            $validated = $request->validate([
                 'name' => 'required',
                 'description' => 'required',
                 'price' => 'required',
-                'picture' => 'required|picture|mimes:jpeg,png,jpg,gif,svg|max:2048|nullable', 
+                'picture' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|nullable',
                 'box_id' => 'nullable|exists:boxes,id',
             ]);
-            $item = new Item();
-            $item->name = $request->input('name');
-            $item->description = $request->input('description');
-            $item->price = $request->input('price');
-            $item->box_id = $request->input('box_id');
+
+
+
             if($request->hasFile('picture')) {
                 $path = $request->file('picture')->store('public/photos');
                 $validated['picture'] = $path;
             }
-        
-            $item->save();
+
+            Item::create($validated);
+            return redirect(route('items.index'));
+
+
         }
         catch (\Exception $e) {
             return response()->json([ $e->getMessage()], 500);
@@ -72,7 +70,7 @@ public function store(Request $request)
         'picture ' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|nullable',
     ]);
 
-    
+
     if ($request->hasFile('picture')) {
         $validated['picture'] = $request->file('picture')->store('public/photos');
     }
@@ -85,21 +83,22 @@ public function store(Request $request)
 
     public function show(Item $item)
     {
-        return view('items.show', ['item' => $item]);   
+        return view('items.show', ['item' => $item]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(Item $item)
     {
-        return view('items.edit', ['item' => $item]);
+
+        $boxes = Box::all();
+        return view('items.edit', ['item' => $item], ['boxes' => $boxes]);
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateItemRequest $request, string $id)
+    public function update(Request $request, string $id)
     {
         try {
             $request->validate([
@@ -122,17 +121,12 @@ public function store(Request $request)
     /**
      * Remove the specified resource from storage.
      */
-    
-    public function destroy($id)
-    {
-        $item = Item::find($id);
 
-        if(!$item){
-            return response()->json(['message' => 'el item no está'], 404);
-        }
-        else{
-            $item->delete();
-            return redirect()->route('items.index')->with('success', 'El item se ha eliminado correctamente.');
-        }
+    public function destroy(String $id)
+    {
+        Item::destroy($id);
+        return redirect()->route('items.index');
+
+
     }
 }

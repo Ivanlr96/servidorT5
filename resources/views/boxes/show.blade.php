@@ -14,6 +14,16 @@
                 <td>Ubicación:</td>
                 <td>{{ $box->location }}</td>
 </tr>
+        <tr>
+            <tr>
+                <td>Items:</td>
+                <td>
+                    @foreach ($items as $item)
+                        {{ $item->name }},
+                    @endforeach
+                </td>
+            </tr>
+        </tr>
         </table>
 </form>
 

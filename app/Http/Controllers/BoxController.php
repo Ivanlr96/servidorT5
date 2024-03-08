@@ -9,12 +9,9 @@ use Illuminate\Routing\ViewController;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Log;
-
+use App\Models\Item;
 class BoxController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index():View
     {
         return view('boxes.index', [
@@ -28,7 +25,7 @@ class BoxController extends Controller
         return view('boxes.create');
     }
 
-    public function store(StoreBoxRequest $request)
+    public function store(Request $request)
     {
         {
             try {
@@ -49,9 +46,7 @@ class BoxController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show($id)
     {
         try {
@@ -59,25 +54,26 @@ class BoxController extends Controller
             if (!$box) {
                 return response()->json(['message' => 'Box not found'], 404);
             }
-            return view('boxes.show', ['box' => $box]);
+            return view('boxes.show', [
+                'box' => $box,
+                'items'=> $box->item
+
+
+            ]);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error retrieving box'], 500);
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(Box $box)
     {
-        return view('boxes.edit', ['box' => $box]); 
+        return view('boxes.edit', ['box' => $box]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    
-    public function update(UpdateBoxRequest $request, $id)
+
+
+    public function update(Request $request, $id)
     {
         {
             try {
@@ -97,9 +93,7 @@ class BoxController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy($id)
     {
         $box = Box::find($id);

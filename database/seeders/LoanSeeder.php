@@ -36,7 +36,7 @@ class LoanSeeder extends Seeder
                     'item_id' => $item->id,
                     'checkout_date' => $checkoutDate,
                     'due_date' => $dueDate,
-                    'returned_date' => $returnedDate,
+                    'return_date' => $returnedDate,
                 ]);
             }
         }

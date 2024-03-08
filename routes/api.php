@@ -25,7 +25,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 
-Route::apiResource('boxes', BoxController::class);
-Route::apiResource('items', ItemController::class);
-Route::apiResource('loans', LoanController::class);
-Route::apiResource('users', UserController::class);
+// Route::apiResource('boxes', BoxController::class);
+// Route::apiResource('items', ItemController::class);
+// Route::apiResource('loans', LoanController::class);
+// Route::apiResource('users', UserController::class);
+
